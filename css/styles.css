@@ -1,0 +1,329 @@
+/* ===== 全体設定 ===== */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 60px 0; /* 固定ヘッダーの高さ分スペースを確保 */
+  background-color: #f5f5f5; /* 背景を薄いグレー */
+  color: #333; /* 文字色を濃いグレー */
+}
+
+h1,
+h2 {
+  text-align: center;
+  color: #000;
+}
+
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== フォームのスタイル ===== */
+form label {
+  margin-top: 10px;
+  color: #444;
+  font-size: 0.9rem;
+  white-space: nowrap; /* ラベルが折り返されないように */
+}
+
+form input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #f9f9f9;
+  color: #333;
+  font-size: 0.9rem; /* 統一したフォントサイズ */
+}
+
+.inline-form input {
+  width: 200px; /* 入力欄の幅を固定 */
+  flex: 1; /* 入力欄を可能な限り広げる */
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #555;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
+}
+
+button:hover {
+  background-color: #333;
+}
+
+button:focus,
+a:focus {
+  outline: 2px solid #007bff;
+}
+
+/* ===== インラインフォームとアクション ===== */
+.inline-form,
+.inline-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* スペースを統一 */
+}
+
+.inline-form label {
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.inline-form button,
+.inline-actions button {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  background-color: #555;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  width: 80px; /* ボタンの幅を統一 */
+}
+
+.inline-form button:hover,
+.inline-actions button:hover {
+  background-color: #333;
+}
+
+.inline-actions {
+  display: flex; /* 横並びに配置 */
+  align-items: center; /* 縦方向の中央揃え */
+  justify-content: center; /* 水平方向に中央揃え */
+  gap: 10px; /* 要素間のスペース */
+}
+
+/* ===== テーブルのスタイル ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+  color: #333;
+}
+
+thead th {
+  background-color: #666;
+  color: #fff;
+}
+
+/* 固定ヘッダーと名称列 */
+.character-table th {
+  position: sticky;
+  top: 0;
+  background-color: #666;
+  color: #fff;
+  z-index: 2;
+}
+
+.character-table td:first-child,
+.character-table th:first-child {
+  position: sticky;
+  left: 0;
+  background-color: #666;
+  color: #fff;
+  z-index: 3;
+}
+
+/* ===== タブメニューのスタイル ===== */
+.tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #ccc;
+}
+
+.tabs button {
+  padding: 10px 20px;
+  background-color: #666;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px 5px 0 0;
+  margin: 0 5px;
+}
+
+.tabs button:hover {
+  background-color: #444;
+}
+
+.tabs button.active {
+  background-color: #333;
+  font-weight: bold;
+  border-bottom: 2px solid white;
+}
+
+/* ===== ナビゲーションのスタイル ===== */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: #444;
+  color: white;
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+nav {
+  text-align: right;
+  padding: 10px;
+}
+
+nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+nav a:hover {
+  text-decoration: underline;
+  color: #bbb;
+}
+
+header nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+header nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+header nav ul li a:hover {
+  text-decoration: underline;
+  color: #bbb;
+}
+
+header nav ul li span {
+  font-size: 1rem;
+  color: #fff;
+}
+
+.tab-content {
+  display: none; /* 初期状態ではすべて非表示 */
+}
+.tab-content.active {
+  display: block; /* アクティブなタブだけ表示 */
+}
+
+#toggle-edit-mode,
+#save-changes,
+#add-column-form button {
+  padding: 5px 10px; /* ボタンの内側余白を調整 */
+  font-size: 0.9rem; /* ボタンのフォントサイズを調整 */
+  background-color: #555; /* ボタンの背景色 */
+  color: white; /* ボタンの文字色 */
+  border: none; /* ボーダーを削除 */
+  border-radius: 3px; /* ボタンの角を丸く */
+  cursor: pointer; /* マウスオーバー時にポインター表示 */
+  white-space: nowrap; /* テキストを折り返さない */
+  width: auto; /* ボタン幅を文字数に応じて自動調整 */
+  display: inline-block; /* ボタンをインラインブロックに */
+  text-align: center; /* テキストを中央揃え */
+  vertical-align: middle; /* 他の要素と高さを揃える */
+}
+
+#toggle-edit-mode:hover,
+#save-changes:hover,
+#add-column-form button:hover {
+  background-color: #333; /* ホバー時の背景色 */
+}
+
+.inline-actions {
+  display: flex;
+  align-items: center; /* 縦方向の中央揃え */
+  gap: 10px; /* 要素間のスペース */
+}
+
+.inline-form {
+  display: flex; /* ラベル、入力、ボタンを横並び */
+  align-items: center; /* 縦方向の中央揃え */
+  gap: 5px; /* 各要素の間隔を調整 */
+}
+
+.inline-form label {
+  white-space: nowrap; /* ラベルのテキストが折り返されないように */
+  font-size: 0.9rem; /* 適切なフォントサイズ */
+}
+
+.inline-form input {
+  flex: 1; /* 入力フィールドを可能な限り広げる */
+  padding: 5px; /* 内側のスペースを調整 */
+  font-size: 0.9rem; /* フォントサイズを調整 */
+  border: 1px solid #ccc; /* 入力フィールドの枠線 */
+  border-radius: 3px; /* 入力フィールドの角を丸くする */
+}
+
+.inline-form button,
+.inline-actions button {
+  padding: 5px 10px; /* ボタンの余白を調整 */
+  font-size: 0.9rem; /* ボタンのフォントサイズを調整 */
+  background-color: #555; /* ボタンの背景色 */
+  color: white; /* ボタンの文字色 */
+  border: none; /* ボーダーを削除 */
+  border-radius: 3px; /* ボタンの角を丸くする */
+  cursor: pointer; /* カーソルをクリック可能に */
+}
+
+.inline-form button:hover,
+.inline-actions button:hover {
+  background-color: #333; /* ホバー時の背景色 */
+}
+
+#save-changes {
+  margin-left: 10px; /* 完了ボタンと他の要素間にスペースを追加 */
+}
+
+#toggle-edit-mode {
+  margin-bottom: 15px; /* 下に余白を追加 */
+}
+
+.inline-actions {
+  display: flex; /* 横並びに配置 */
+  align-items: center; /* 縦方向の中央揃え */
+  gap: 10px; /* 要素間のスペース */
+}
+
+.inline-actions button {
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  background-color: #555;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  white-space: nowrap; /* テキストが折り返されないように */
+}
+
+.inline-actions button:hover {
+  background-color: #333;
+}
+
+#save-changes {
+  display: none; /* 初期状態で非表示 */
+  margin-bottom: 15px; /* 下に余白を追加 */
+}
