@@ -56,7 +56,6 @@ require 'header.php'; // ヘッダーを読み込む
         <div id="message" style="margin-top: 20px; font-weight: bold;"></div>
     </div>
 
-    <h2>キャラクター一覧</h2>
     <!-- キャラクター一覧のコンテナ -->
     <div id="character-list-container">
         <?php include 'php/characters_list.php'; ?>
