@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data'])) {
     $data = json_decode($_POST['data'], true);
 
     // データベースに保存するためのSQL
-    $stmt = $pdo->prepare("
+    $stmtInsert = $pdo->prepare("
         INSERT INTO investigators (
             url, name, occupation, birthplace, degree, mental_disorder, age, sex, 
             str, con, pow, dex, app, siz, int_value, edu, 
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data'])) {
 
     try {
         // データベースへの挿入を試みる
-        $stmt->execute([
+        $stmtInsert->execute([
             ':url' => $data['url'],
             ':name' => $data['name'],
             ':occupation' => $data['occupation'],
@@ -66,12 +66,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['data'])) {
         ]);
 
         // 成功メッセージを表示
-        echo "キャラクター情報を保存しました！";
+        echo json_encode(['success' => true, 'message' => 'キャラクター情報を保存しました！'], JSON_UNESCAPED_UNICODE);
+
     } catch (PDOException $e) {
         // エラーメッセージを表示
-        echo "データベースエラー: " . $e->getMessage();
+        echo json_encode(['success' => false, 'error' => $e->getMessage()]);
     }
 } else {
-    echo "無効なリクエストです。";
+    echo json_encode(['success' => false, 'message' => '無効なリクエストです。']);
 }
 ?>

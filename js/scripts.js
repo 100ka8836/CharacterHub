@@ -1,3 +1,4 @@
+// サイト選択に応じたフォーム表示
 function handleSiteChange() {
   const selectedSite = document.getElementById("siteSelect").value;
   document.getElementById("charaenoForm").style.display =
@@ -8,39 +9,33 @@ function handleSiteChange() {
     selectedSite === "iachara" ? "block" : "none";
 }
 
+// フォーム送信時にリストを更新
 function submitForm(event, formId, apiUrl) {
-  event.preventDefault(); // デフォルトの送信を防止
+  event.preventDefault();
   const form = document.getElementById(formId);
   const formData = new FormData(form);
-  const messageElement = document.getElementById("message"); // メッセージ表示エリアを取得
+  const messageElement = document.getElementById("message-box");
 
   fetch(apiUrl, {
     method: "POST",
     body: formData
   })
-    .then((response) => response.text())
+    .then((response) => response.json())
     .then((data) => {
-      messageElement.textContent = data; // サーバーからの応答を表示
-      messageElement.style.color = "green"; // メッセージの色を設定
-      form.reset(); // フォームをリセット
-      updateCharacterList(); // キャラクター一覧を更新
+      if (data.success) {
+        messageElement.textContent = "キャラクターが正常に登録されました！";
+        messageElement.style.color = "green";
+        const activeTabId = localStorage.getItem("activeTabId") || "tab-basic";
+        refreshCharacterList(activeTabId); // 一覧を更新し現在のタブを維持
+      } else {
+        messageElement.textContent = data.message || "エラーが発生しました。";
+        messageElement.style.color = "red";
+      }
+      form.reset();
     })
-    .catch((error) => {
-      console.error("エラー:", error);
+    .catch(() => {
       messageElement.textContent =
-        "登録に失敗しました。もう一度お試しください。";
-      messageElement.style.color = "red"; // エラーメッセージの色を設定
-    });
-}
-
-function updateCharacterList() {
-  const listContainer = document.getElementById("character-list-container");
-  fetch("php/characters_list.php")
-    .then((response) => response.text())
-    .then((html) => {
-      listContainer.innerHTML = html; // 最新の一覧を更新
-    })
-    .catch((error) => {
-      console.error("キャラクター一覧の更新エラー:", error);
+        "通信エラーが発生しました。もう一度お試しください。";
+      messageElement.style.color = "red";
     });
 }

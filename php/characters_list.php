@@ -10,6 +10,7 @@ $stmt = $pdo->prepare("SELECT * FROM investigators ORDER BY $sortColumn $sortOrd
 $stmt->execute();
 $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -17,9 +18,9 @@ $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>キャラクター一覧</title>
-    <script src="js/character_sort.js"></script>
+    <link rel="stylesheet" href="css/styles.css">
     <script src="js/tab_navigation.js"></script>
-    <script src="js/other_info.js"></script>
+    <script src="js/character_sort.js"></script>
 </head>
 
 <body>
@@ -31,7 +32,6 @@ $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <button class="tab-button" onclick="showTab('tab-basic')">基本</button>
             <button class="tab-button" onclick="showTab('tab-attributes')">能力</button>
             <button class="tab-button" onclick="showTab('tab-skills')">技能</button>
-            <button class="tab-button" onclick="showTab('tab-other')">その他</button>
         </div>
 
         <!-- 基本タブ -->
@@ -81,24 +81,6 @@ $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         <?php foreach ($characters as $character): ?>
                             <td><?= htmlspecialchars($character['san_current']) ?>/<?= htmlspecialchars($character['san_max']) ?>
                             </td>
-                        <?php endforeach; ?>
-                    </tr>
-                    <tr>
-                        <td>職業</td>
-                        <?php foreach ($characters as $character): ?>
-                            <td><?= htmlspecialchars($character['occupation']) ?></td>
-                        <?php endforeach; ?>
-                    </tr>
-                    <tr>
-                        <td>出身</td>
-                        <?php foreach ($characters as $character): ?>
-                            <td><?= htmlspecialchars($character['birthplace']) ?></td>
-                        <?php endforeach; ?>
-                    </tr>
-                    <tr>
-                        <td>学位</td>
-                        <?php foreach ($characters as $character): ?>
-                            <td><?= htmlspecialchars($character['degree']) ?></td>
                         <?php endforeach; ?>
                     </tr>
                 </tbody>
@@ -182,74 +164,39 @@ $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </thead>
                 <tbody>
                     <?php
-                    $skills = json_decode($characters[0]['skills'], true);
-                    foreach ($skills as $skill): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($skill['name']) ?></td>
-                            <?php foreach ($characters as $character):
-                                $skills = json_decode($character['skills'], true);
-                                $value = array_filter($skills, fn($s) => $s['name'] === $skill['name']);
-                                $value = $value ? array_values($value)[0]['value'] : '-';
-                                ?>
-                                <td><?= htmlspecialchars($value) ?></td>
-                            <?php endforeach; ?>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- その他タブ -->
-        <div id="tab-other" class="tab-content" style="display: none;">
-            <!-- カラムを追加するフォーム -->
-            <div class="inline-actions">
-                <form id="add-column-form" class="inline-form">
-                    <label for="new-column-name">Newカラム</label>
-                    <input type="text" id="new-column-name" name="new_column_name" placeholder="例）好きな色">
-                    <button type="submit">追加</button>
-                </form>
-                <button id="toggle-edit-mode">内容の編集</button>
-                <button id="save-changes" style="display: none;">完了</button>
-            </div>
-
-
-
-
-            <!-- カラム一覧を表示するテーブル -->
-            <table class="character-table">
-                <thead>
-                    <tr>
-                        <th>名称</th>
-                        <?php foreach ($characters as $character): ?>
-                            <th><?= htmlspecialchars($character['name']) ?></th>
-                        <?php endforeach; ?>
-                    </tr>
-                </thead>
-                <tbody id="other-info-table-body">
-                    <?php
-                    // カラムごとの情報を生成
-                    $allColumns = [];
+                    // すべての技能をユニークに集める
+                    $allSkills = [];
                     foreach ($characters as $character) {
-                        $otherInfo = json_decode($character['other_info'], true) ?? [];
-                        foreach ($otherInfo as $key => $value) {
-                            $allColumns[$key][] = $value;
+                        $skills = json_decode($character['skills'], true);
+                        if (is_array($skills)) {
+                            foreach ($skills as $skill) {
+                                $allSkills[$skill['name']] = $skill['name'];
+                            }
                         }
                     }
-                    foreach ($allColumns as $columnName => $values): ?>
+                    // テーブル表示
+                    foreach ($allSkills as $skillName): ?>
                         <tr>
-                            <td><?= htmlspecialchars($columnName) ?></td>
-                            <?php foreach ($values as $value): ?>
-                                <td class="editable"><?= htmlspecialchars($value) ?></td>
+                            <td><?= htmlspecialchars($skillName) ?></td>
+                            <?php foreach ($characters as $character):
+                                $skills = json_decode($character['skills'], true);
+                                $skillValue = '-';
+                                if (is_array($skills)) {
+                                    foreach ($skills as $skill) {
+                                        if ($skill['name'] === $skillName) {
+                                            $skillValue = $skill['value'] ?? '-';
+                                            break;
+                                        }
+                                    }
+                                }
+                                ?>
+                                <td><?= htmlspecialchars($skillValue) ?></td>
                             <?php endforeach; ?>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
-
-
-
-
     <?php endif; ?>
 </body>
 

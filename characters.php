@@ -53,7 +53,8 @@ require 'header.php'; // ヘッダーを読み込む
         </form>
 
         <!-- メッセージ表示エリア -->
-        <div id="message" style="margin-top: 20px; font-weight: bold;"></div>
+        <div id="message-box" style="color: green; font-weight: bold;"></div>
+
     </div>
 
     <!-- キャラクター一覧のコンテナ -->

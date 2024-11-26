@@ -63,11 +63,6 @@ button:hover {
   background-color: #333;
 }
 
-button:focus,
-a:focus {
-  outline: 2px solid #007bff;
-}
-
 /* ===== インラインフォームとアクション ===== */
 .inline-form,
 .inline-actions {
@@ -117,7 +112,8 @@ table td {
   border: 1px solid #ddd;
   padding: 10px;
   text-align: left;
-  color: #333;
+  color: #333; /* 文字色 */
+  background-color: #fff; /* 背景色 */
 }
 
 thead th {
@@ -224,10 +220,11 @@ header nav ul li span {
 }
 
 .tab-content {
-  display: none; /* 初期状態ではすべて非表示 */
+  display: none; /* 非表示のデフォルトスタイル */
 }
+
 .tab-content.active {
-  display: block; /* アクティブなタブだけ表示 */
+  display: block; /* アクティブなタブは表示 */
 }
 
 #toggle-edit-mode,
