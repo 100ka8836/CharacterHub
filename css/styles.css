@@ -324,3 +324,30 @@ header nav ul li span {
   display: none; /* 初期状態で非表示 */
   margin-bottom: 15px; /* 下に余白を追加 */
 }
+
+.additional-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.additional-field input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  flex: 1;
+}
+
+.additional-field button {
+  padding: 5px 10px;
+  background-color: #555;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.additional-field button:hover {
+  background-color: #333;
+}

@@ -21,6 +21,9 @@ $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="css/styles.css">
     <script src="js/tab_navigation.js"></script>
     <script src="js/character_sort.js"></script>
+    <script src="js/other_tab.js" defer></script>
+
+
 </head>
 
 <body>
@@ -32,6 +35,7 @@ $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <button class="tab-button" onclick="showTab('tab-basic')">基本</button>
             <button class="tab-button" onclick="showTab('tab-attributes')">能力</button>
             <button class="tab-button" onclick="showTab('tab-skills')">技能</button>
+            <button class="tab-button" onclick="showTab('tab-other')">その他</button>
         </div>
 
         <!-- 基本タブ -->
@@ -197,7 +201,33 @@ $characters = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </tbody>
             </table>
         </div>
-    <?php endif; ?>
+
+        <div id="tab-other" class="tab-content" style="display: none;">
+            <table id="additional-fields-table">
+                <thead>
+                    <tr>
+                        <th>カテゴリ</th>
+                        <?php foreach ($characters as $character): ?>
+                            <th><?= htmlspecialchars($character['name']) ?></th>
+                        <?php endforeach; ?>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody id="additional-fields-table-body">
+                    <!-- 動的にデータがここに挿入される -->
+                </tbody>
+            </table>
+
+            <!-- カテゴリ追加フォーム -->
+            <div id="add-category-container">
+                <input id="new-category-name" type="text" placeholder="新しいカテゴリ" />
+                <button onclick="addNewCategory()">+</button>
+            </div>
+
+
+
+
+        <?php endif; ?>
 </body>
 
 </html>
